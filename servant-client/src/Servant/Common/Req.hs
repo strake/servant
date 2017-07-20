@@ -126,8 +126,10 @@ reqToRequest req (BaseUrl reqScheme reqHost reqPort path) =
                                          , uriRegName = reqHost
                                          , uriPort = ":" ++ show reqPort
                                          }
-                             , uriPath = path ++ reqPath req
+                             , uriPath = path ++ slashIfNull (reqPath req)
                              }
+          where slashIfNull s | null s = "/"
+                              | otherwise = s
 
         setrqb r = case reqBody req of
                      Nothing -> r
